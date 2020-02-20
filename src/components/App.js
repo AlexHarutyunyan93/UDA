@@ -5,13 +5,16 @@ import { alertActions } from '../actions';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { HomePage } from './HomePage';
 import { SignIn } from './SignIn';
-import {Route, Router} from "react-router-dom";
+import {Redirect, Route, Router, Switch} from "react-router-dom";
+import {SignUp} from "./SingUp";
 
 function App(props) {
-    const { dispatch } = props;
+    const { dispatch, clearAlerts } = props;
+
     history.listen((location, action) => {
-        dispatch(alertActions.clear());
+        clearAlerts();
     });
+
     return (
         <div className="jumbotron">
             <div className="container">
@@ -21,8 +24,13 @@ function App(props) {
                     }
                     <Router history={history}>
                         <div>
-                            <PrivateRoute exact path="/" component={HomePage} />
-                            <Route path="/login" component={SignIn} />
+                            <Switch>
+                                <PrivateRoute exact path="/" component={HomePage} />
+                                <Route path="/login" component={SignIn} />
+                                <Route path="/register" component={SignUp} />
+                                <Redirect from="*" to="/" />
+                            </Switch>
+
                         </div>
                     </Router>
                 </div>

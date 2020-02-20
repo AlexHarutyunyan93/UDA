@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {connect} from "react-redux";
+import {userActions} from "../../actions/user";
 
 function Copyright() {
     return (
@@ -46,9 +48,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export function SignIn() {
+function SignIn(props) {
+    const { dispatch } = props;
     const classes = useStyles();
+    const { username, setUserName } = useState('');
+    const { password, setPassword } = useState('');
 
+    function handleSubmite(e){
+        e.preventDefault();
+        if (username && password) {
+            dispatch(userActions.login(username, password));
+        }
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -59,35 +70,36 @@ export function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmite}>
                     <TextField
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
                         id="email"
-                        label="Email Address"
-                        name="email"
+                        label="User Name"
+                        name="username"
                         autoComplete="email"
                         autoFocus
+                        onChange={setUserName}
                     />
                     <TextField
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
+                        name="username"
                         label="Password"
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={setPassword}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -115,3 +127,12 @@ export function SignIn() {
         </Container>
     );
 }
+function mapStateToProps(state) {
+    const { loggingIn } = state.authentication;
+    return {
+        loggingIn
+    };
+}
+
+const connectedLoginPage = connect(mapStateToProps)(SignIn);
+export { connectedLoginPage as SignIn };
