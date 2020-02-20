@@ -1,0 +1,18 @@
+# OS
+*~
+*.log
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+
+# NPM
+node_modules/
+package-lock.json
+
+# Typescript
+*.d.ts
+*.js
+*.js.map
+
