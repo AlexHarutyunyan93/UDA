@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { history } from '../helpers';
-import { alertActions } from '../actions';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { HomePage } from './HomePage';
 import { SignIn } from './SignIn';
 import {Redirect, Route, Router, Switch} from "react-router-dom";
 import {SignUp} from "./SingUp";
+import {alert} from "../reducers/alert.reducer";
+
 
 function App(props) {
-    const { dispatch, clearAlerts } = props;
+    const { dispatch, alert } = props;
 
-    history.listen((location, action) => {
-        clearAlerts();
+    useEffect(() => {
+        history.listen((location, action) => {
+            alert.clear();
+        });
     });
-
     return (
         <div className="jumbotron">
             <div className="container">
@@ -23,15 +25,12 @@ function App(props) {
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
                     <Router history={history}>
-                        <div>
                             <Switch>
                                 <PrivateRoute exact path="/" component={HomePage} />
                                 <Route path="/login" component={SignIn} />
                                 <Route path="/register" component={SignUp} />
                                 <Redirect from="*" to="/" />
                             </Switch>
-
-                        </div>
                     </Router>
                 </div>
             </div>
@@ -44,6 +43,9 @@ function mapStateToProps(state) {
     return {
         alert
     };
+}
+function mapDispathToProps(dispatch){
+    const { alert } = dispatch;
 }
 
 const connectedApp = connect(mapStateToProps)(App);
