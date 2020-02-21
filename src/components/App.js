@@ -5,16 +5,17 @@ import { PrivateRoute } from '../components/PrivateRoute';
 import { HomePage } from './HomePage';
 import { SignIn } from './SignIn';
 import {Redirect, Route, Router, Switch} from "react-router-dom";
+//import { bindActionCreators } from 'redux';
 import {SignUp} from "./SingUp";
-import {alert} from "../reducers/alert.reducer";
+import {bindActionCreators} from "redux";
+import {alertActions} from "../actions";
+//import {alertActions} from '../actions';
 
-
-function App(props) {
-    const { dispatch, alert } = props;
+function App({clear, alert}) {
 
     useEffect(() => {
         history.listen((location, action) => {
-            alert.clear();
+            clear();
         });
     });
     return (
@@ -38,15 +39,13 @@ function App(props) {
     )
 }
 
-function mapStateToProps(state) {
-    const { alert } = state;
-    return {
-        alert
-    };
-}
-function mapDispathToProps(dispatch){
-    const { alert } = dispatch;
-}
+const mapStateToProps = ({alert}) => ({
+    alert
+});
 
-const connectedApp = connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators(alertActions, dispatch)
+});
+
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 export { connectedApp as App };

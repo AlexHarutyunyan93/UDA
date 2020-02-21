@@ -12,6 +12,7 @@ export const userActions = {
 };
 
 function login(username, password) {
+    console.log(username, password,"user-actions");
     return dispatch => {
         dispatch(request({ username }));
 

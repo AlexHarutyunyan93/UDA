@@ -13,7 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {connect} from "react-redux";
-import {userActions} from "../../actions/user";
+import { userActions } from "../../actions/user";
+import {bindActionCreators} from "redux";
 
 function Copyright() {
     return (
@@ -48,16 +49,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function SignIn(props) {
-    const { dispatch } = props;
+function SignIn({ login, loggingIn }) {
     const classes = useStyles();
-    const { username, setUserName } = useState('');
-    const { password, setPassword } = useState('');
 
-    function handleSubmite(e){
+    let [ username, setUserName ] = useState(null);
+    let [ password, setPassword ] = useState(null);
+
+    function submit(e){
         e.preventDefault();
         if (username && password) {
-            dispatch(userActions.login(username, password));
+            login(username, password);
         }
     }
     return (
@@ -70,7 +71,7 @@ function SignIn(props) {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={handleSubmite}>
+                <form className={classes.form} noValidate onSubmit={submit}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -81,7 +82,7 @@ function SignIn(props) {
                         name="username"
                         autoComplete="email"
                         autoFocus
-                        onChange={setUserName}
+                        onChange={(e) => setUserName(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -93,13 +94,14 @@ function SignIn(props) {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onChange={setPassword}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
+                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -127,12 +129,14 @@ function SignIn(props) {
         </Container>
     );
 }
-function mapStateToProps(state) {
-    const { loggingIn } = state.authentication;
-    return {
-        loggingIn
-    };
-}
 
-const connectedLoginPage = connect(mapStateToProps)(SignIn);
+const mapStateToProps = ({ authentication }) => ({
+    loggingIn: authentication
+});
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators(userActions, dispatch)
+});
+
+
+const connectedLoginPage = connect(mapStateToProps,mapDispatchToProps)(SignIn);
 export { connectedLoginPage as SignIn };
