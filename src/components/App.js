@@ -5,11 +5,9 @@ import { PrivateRoute } from '../components/PrivateRoute';
 import { HomePage } from './HomePage';
 import { SignIn } from './SignIn';
 import {Redirect, Route, Router, Switch} from "react-router-dom";
-//import { bindActionCreators } from 'redux';
 import {SignUp} from "./SingUp";
 import {bindActionCreators} from "redux";
 import {alertActions} from "../actions";
-//import {alertActions} from '../actions';
 
 function App({clear, alert}) {
 

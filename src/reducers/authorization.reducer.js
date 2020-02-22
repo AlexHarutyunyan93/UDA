@@ -9,6 +9,7 @@ export function authorization(state = {}, action) {
             };
         case userConstants.REGISTER_SUCCESS:
             return {
+                loggedIn: true,
                 registering: true,
                 user: action.user
             };

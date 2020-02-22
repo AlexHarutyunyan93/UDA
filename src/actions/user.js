@@ -44,8 +44,8 @@ function register(user) {
 
         userService.register(user)
             .then(
-                user => {
-                    dispatch(success(user));
+                response => {
+                    dispatch(success(response));
                     history.push('/');
                     dispatch(alertActions.success('Registration successful'));
                 },
