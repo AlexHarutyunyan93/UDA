@@ -12,8 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {userService as userActions} from "../../services/user.service";
+import {userActions} from "../../actions/user";
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 function Copyright() {
     return (
@@ -48,9 +49,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function SignUp(props) {
+function SignUp({register, registering}) {
     const classes = useStyles();
-    const {register} = props;
+
     let [submited, setSubmited] = useState(false);
     let [firstName, setFirstName] = useState(null);
     let [lastName, setLastName] = useState(null);
@@ -161,14 +162,14 @@ function SignUp(props) {
     );
 }
 
-function mapState(state) {
-    const { registering } = state;
-    return { registering };
-}
+const mapStateToProps = ({ authorization }) => ({
+    registering: authorization
+});
 
-const actionCreators = {
-    register: userActions.register
-};
+const mapDispatchToProps = dispatch => ({
+    ...bindActionCreators(userActions, dispatch)
+});
 
-const connectedRegisterPage = connect(mapState, actionCreators)(SignUp);
+
+const connectedRegisterPage = connect(mapStateToProps, mapDispatchToProps)(SignUp);
 export { connectedRegisterPage as SignUp };

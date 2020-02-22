@@ -31,13 +31,29 @@ function logout() {
     localStorage.removeItem('user');
 }
 
+function register(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+    return fetch(`http://localhost:7070/users/register`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        });
+
+}
+
 function getAll() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(`http://localhost:9090/users`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:7070/users`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
@@ -46,20 +62,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`http://localhost:9090/users/${id}`, requestOptions).then(handleResponse);
-}
-
-function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-    /////////////////// this part of code must be verify //////////////
-    return function fetchData(){
-        return fetch(`http://localhost:9090/users/register`, requestOptions).then(handleResponse);
-    };
-    /////////////////////////////////////////////////////////////////////////////////////////
+    return fetch(`http://localhost:7070/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -69,7 +72,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`http://localhost:9090/users/${user.id}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:7070/users/${user.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -79,7 +82,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`http://localhost:9090/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:7070/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
