@@ -12,9 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {connect} from "react-redux";
-import { userActions } from "../../actions/user";
-import {bindActionCreators} from "redux";
+
 
 function Copyright() {
     return (
@@ -49,17 +47,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function SignIn({ login, logout, user }) {
+function SignInComponent({ submit }) {
     const classes = useStyles();
     let [ username, setUserName ] = useState(null);
     let [ password, setPassword ] = useState(null);
 
-    function submit(e){
-        e.preventDefault();
-        if (username && password) {
-            login(username, password);
-        }
-    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -70,7 +62,7 @@ function SignIn({ login, logout, user }) {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={submit}>
+                <form className={classes.form} noValidate onSubmit={e => submit(e, username, password)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -129,17 +121,4 @@ function SignIn({ login, logout, user }) {
     );
 }
 
-const mapStateToProps = ({ authentication }) => ({
-    user: authentication.user,
-});
-const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(userActions, dispatch)
-});
-
-
-const connectedLoginPage = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignIn);
-
-export { connectedLoginPage as SignIn };
+export default SignInComponent;

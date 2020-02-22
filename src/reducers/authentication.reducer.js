@@ -9,7 +9,8 @@ export function authentication(state = initialState, action) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return {
-                user: action.user
+                loggedIn: false,
+                user: null
             };
         case userConstants.LOGIN_SUCCESS:
             return {
@@ -17,9 +18,15 @@ export function authentication(state = initialState, action) {
                 user: action.user
             };
         case userConstants.LOGIN_FAILURE:
-            return {};
+            return {
+                loggedIn: false,
+                user: null
+            };
         case userConstants.LOGOUT:
-            return {user: null};
+            return {
+                loggedIn: false,
+                user: null
+            };
         case userConstants.REGISTER_SUCCESS:
             return {
                 loggedIn: true,
