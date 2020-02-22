@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -49,9 +49,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function SignIn({ login, loggingIn }) {
+function SignIn({ login, logout, user }) {
     const classes = useStyles();
-
     let [ username, setUserName ] = useState(null);
     let [ password, setPassword ] = useState(null);
 
@@ -131,12 +130,16 @@ function SignIn({ login, loggingIn }) {
 }
 
 const mapStateToProps = ({ authentication }) => ({
-    loggingIn: authentication
+    user: authentication.user,
 });
 const mapDispatchToProps = dispatch => ({
     ...bindActionCreators(userActions, dispatch)
 });
 
 
-const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(SignIn);
+const connectedLoginPage = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn);
+
 export { connectedLoginPage as SignIn };
