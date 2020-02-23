@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {userActions} from "../../actions";
 import {connect} from "react-redux";
 import SignInComponent from "./SignIn.component";
+import {Redirect} from "react-router-dom";
 
 function SignInContainer({login, logout, user, loggedIn}){
 
@@ -12,7 +13,9 @@ function SignInContainer({login, logout, user, loggedIn}){
             login(username, password);
         }
     }
-    return <SignInComponent {...arguments[0]} submit={submit} />
+    return user ?
+        <Redirect to='/' /> :
+        <SignInComponent {...arguments[0]} submit={submit} />
 }
 
 const mapStateToProps = ({ authentication }) => ({

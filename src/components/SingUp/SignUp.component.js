@@ -49,25 +49,14 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function SignUp({register, registering}) {
+function SignUpComponent() {
     const classes = useStyles();
 
-    let [submited, setSubmited] = useState(false);
     let [firstName, setFirstName] = useState(null);
     let [lastName, setLastName] = useState(null);
     let [username, setUserName] = useState(null);
     let [password, setPassword] = useState(null);
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        const user = {firstName, lastName, username, password};
-        setSubmited(true);
-
-        if (firstName && lastName && username && password) {
-            register(user);
-        }
-    }
-
+    let user = {firstName, lastName, username, password};
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -78,7 +67,7 @@ function SignUp({register, registering}) {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                <form className={classes.form} noValidate onSubmit={(e) => handleSubmit(e, user)}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -161,15 +150,5 @@ function SignUp({register, registering}) {
         </Container>
     );
 }
+export default SignUpComponent;
 
-const mapStateToProps = ({ authorization }) => ({
-    registering: authorization
-});
-
-const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(userActions, dispatch)
-});
-
-
-const connectedRegisterPage = connect(mapStateToProps, mapDispatchToProps)(SignUp);
-export { connectedRegisterPage as SignUp };
