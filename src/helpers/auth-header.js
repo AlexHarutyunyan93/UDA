@@ -1,8 +1,10 @@
-export function authHeader() {
-    let user = JSON.parse(localStorage.getItem('user'));
+import Cookies from 'js-cookie';
 
-    if (user && user.token) {
-        return { 'Authorization': 'Bearer ' + user.token };
+export function authHeader() {
+    let token = Cookies.get('token');
+
+    if (token) {
+        return { 'Authorization': 'Bearer ' + token };
     } else {
         return {};
     }

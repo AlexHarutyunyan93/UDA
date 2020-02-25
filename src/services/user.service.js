@@ -1,4 +1,5 @@
 import { authHeader } from '../helpers';
+import Cookies from 'js-cookie';
 
 export const userService = {
     login,
@@ -21,14 +22,15 @@ function login(username, password) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+            Cookies.set('token', user.token);
+            Cookies.set('userId', user._id);
             return user;
         });
 }
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    Cookies.remove('token');
 }
 
 function register(user) {
@@ -41,7 +43,8 @@ function register(user) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+            Cookies.set('token', user.token);
+            Cookies.set('userId', user._id);
             return user;
         });
 
@@ -56,12 +59,12 @@ function getAll() {
     return fetch(`http://localhost:7070/users`, requestOptions).then(handleResponse);
 }
 
-function getById(id) {
+function getById() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
-
+    const id = Cookies.get('userId');
     return fetch(`http://localhost:7070/users/${id}`, requestOptions).then(handleResponse);
 }
 

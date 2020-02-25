@@ -4,12 +4,13 @@ import {userActions} from "../../actions";
 import {connect} from "react-redux";
 import HomePageComponent from "./HomePage.component";
 
-function HomePageContainer({user, users, logout, getAll}){
-    return <HomePageComponent {...arguments[0]} />
+function HomePageContainer({user, users, logout, getById}){
+
+    return <HomePageComponent {...arguments[0]} />;
 }
 
-const mapStateToProps = ({users, authentication}) => ({
-    user: authentication.user,
+const mapStateToProps = ({users, user}) => ({
+    user: user,
     users
 });
 

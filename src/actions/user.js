@@ -7,13 +7,14 @@ export const userActions = {
     login,
     logout,
     register,
+    getById,
     getAll,
     delete: _delete
 };
 
 function login(username, password) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request());
 
         userService.login(username, password)
             .then(
@@ -28,8 +29,8 @@ function login(username, password) {
             );
     };
 
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+    function request() { return { type: userConstants.LOGIN_REQUEST } }
+    function success(user) { return { type: userConstants.LOGIN_SUCCESS, payload: user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
@@ -41,7 +42,7 @@ function logout() {
 
 function register(user) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
        userService.register(user)
             .then(response => {
@@ -56,11 +57,24 @@ function register(user) {
             );
     };
 
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function request() { return { type: userConstants.REGISTER_REQUEST } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, payload: user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
+function getById(){
+    return dispatch => {
+        dispatch(request());
+        userService.getById()
+            .then(
+                    user => dispatch(success(user)),
+                    error => dispatch(failure(error.toString()))
+                );
+    };
 
+    function request() { return { type: userConstants.GETBYID_REQUEST } }
+    function success(user) { return { type: userConstants.GETBYID_SUCCESS, payload: user } }
+    function failure(error) { return { type: userConstants.GETBYID_FAILURE, error } }
+}
 function getAll() {
     return dispatch => {
         dispatch(request());
@@ -73,7 +87,7 @@ function getAll() {
     };
 
     function request() { return { type: userConstants.GETALL_REQUEST } }
-    function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
+    function success(users) { return { type: userConstants.GETALL_SUCCESS, payload: users } }
     function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
 }
 

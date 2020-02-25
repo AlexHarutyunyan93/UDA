@@ -1,9 +1,9 @@
 import { userConstants } from '../constants';
+import Cookies from 'js-cookie';
 
-let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ?
-    { loggedIn: true, user } :
-    { loggedIn: false, user: null };
+const initialState = Cookies.get('token') ?
+    { loggedIn: true } :
+    { loggedIn: false };
 
 export function authentication(state = initialState, action) {
     switch (action.type) {
@@ -15,7 +15,6 @@ export function authentication(state = initialState, action) {
         case userConstants.LOGIN_SUCCESS:
             return {
                 loggedIn: true,
-                user: action.user
             };
         case userConstants.LOGIN_FAILURE:
             return {
@@ -30,7 +29,6 @@ export function authentication(state = initialState, action) {
         case userConstants.REGISTER_SUCCESS:
             return {
                 loggedIn: true,
-                user: action.user
             };
         default:
             return state

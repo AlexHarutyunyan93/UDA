@@ -19,8 +19,8 @@ export function SignUpContainer({register, user}){
         <Redirect to="/" /> :
         <SignUpComponent handleSubmit={handleSubmit} />
 }
-const mapStateToProps = ({ authentication }) => ({
-    user: authentication.user,
+const mapStateToProps = ({ authentication, user }) => ({
+    user: user.user,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -18,8 +18,8 @@ function SignInContainer({login, logout, user, loggedIn}){
         <SignInComponent {...arguments[0]} submit={submit} />
 }
 
-const mapStateToProps = ({ authentication }) => ({
-    user: authentication.user,
+const mapStateToProps = ({ user, authentication }) => ({
+    user: user.user,
     loggedIn: authentication.loggedIn
 });
 const mapDispatchToProps = dispatch => ({
