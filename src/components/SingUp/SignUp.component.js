@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {userActions} from "../../actions/user";
+import {userActions} from "../../actions/user.actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {bindActionCreators} from "redux";
-import {userActions} from "../../actions";
+import {authActions} from "../../actions";
 import {connect} from "react-redux";
 import SignInComponent from "./SignIn.component";
 import {Redirect} from "react-router-dom";
@@ -22,8 +22,9 @@ const mapStateToProps = ({ user, authentication }) => ({
     user: user.user,
     loggedIn: authentication.loggedIn
 });
+
 const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(userActions, dispatch)
+    ...bindActionCreators(authActions, dispatch)
 });
 
 

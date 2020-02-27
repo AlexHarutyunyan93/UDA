@@ -1,7 +1,7 @@
 import React from 'react';
 import SignUpComponent from "./SignUp.component";
 import {bindActionCreators} from "redux";
-import {userActions} from "../../actions";
+import {authActions} from "../../actions";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
@@ -24,7 +24,7 @@ const mapStateToProps = ({ authentication, user }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(userActions, dispatch)
+    ...bindActionCreators(authActions, dispatch)
 });
 
 
