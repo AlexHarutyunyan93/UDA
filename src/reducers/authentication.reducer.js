@@ -1,7 +1,7 @@
 import { userConstants } from '../constants';
 import Cookies from 'js-cookie';
 
-const initialState = Cookies.get('token') ?
+const initialState = Cookies.get('token') && Cookies.get('userId') ?
     { loggedIn: true } :
     { loggedIn: false };
 

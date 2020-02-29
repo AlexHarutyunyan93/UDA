@@ -5,22 +5,23 @@ import {authActions} from "../../actions";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
-export function SignUpContainer({register, user}){
+export function SignUpContainer({register, loggedIn}){
     function handleSubmit(event, {firstName, lastName, username, password}) {
-
         event.preventDefault();
+
         const user = {firstName, lastName, username, password};
 
         if (firstName && lastName && username && password) {
             register(user);
         }
     }
-    return user ?
+
+    return loggedIn ?
         <Redirect to="/" /> :
         <SignUpComponent handleSubmit={handleSubmit} />
 }
-const mapStateToProps = ({ authentication, user }) => ({
-    user: user.user,
+const mapStateToProps = ({ authentication }) => ({
+    loggedIn: authentication.loggedIn
 });
 
 const mapDispatchToProps = dispatch => ({

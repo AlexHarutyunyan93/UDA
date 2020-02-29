@@ -1,9 +1,11 @@
 import Cookies from 'js-cookie';
+import {authHeader} from "../helpers";
 
 export const authService = {
     login,
     logout,
     register,
+    checkToken
 };
 
 function login(username, password) {
@@ -17,8 +19,22 @@ function login(username, password) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            Cookies.set('token', user.token);
-            Cookies.set('userId', user._id);
+            Cookies.set('token', user.token, { expires: 7 });
+            Cookies.set('userId', user._id, { expires: 7 });
+            return user;
+        });
+}
+
+function checkToken() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader(),
+    };
+
+    return fetch(`http://localhost:7070/users/current/${Cookies.get('userId')}`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
             return user;
         });
 }
@@ -26,6 +42,7 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     Cookies.remove('token');
+    Cookies.remove('userId');
 }
 
 function register(user) {
@@ -38,8 +55,8 @@ function register(user) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            Cookies.set('token', user.token);
-            Cookies.set('userId', user._id);
+            Cookies.set('token', user.token, { expires: 7 });
+            Cookies.set('userId', user._id, { expires: 7 });
             return user;
         });
 

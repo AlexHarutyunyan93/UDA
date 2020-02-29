@@ -1,28 +1,54 @@
 import { userConstants } from '../constants';
+import {authConstants} from "../constants/auth.constants";
 
-export function user(state = {}, action) {
+const initialState = {
+    loading: true,
+    data: null
+};
+
+export function user(state = initialState, action) {
     switch (action.type) {
         case userConstants.GETBYID_REQUEST:
             return {
-                loading: true
+                loading: true,
+                data: null
             };
         case userConstants.GETBYID_SUCCESS:
             return {
                 loading: false,
-                user: action.payload
+                data: action.payload
             };
         case userConstants.GETBYID_FAILURE:
             return {
                 loading: false,
-                error: action.error
+                data: null,
+                error
             };
         case userConstants.LOGIN_SUCCESS:
             return {
-                user: action.payload
+                loading: false,
+                data: action.payload
             };
         case userConstants.REGISTER_SUCCESS:
             return {
-                user: action.payload
+                loading: false,
+                data: action.payload
+            };
+        case authConstants.CHECK_REQUEST:
+            return {
+                loading: true,
+                data: null
+            };
+        case authConstants.CHECK_SUCCESS:
+            return {
+                loading: false,
+                data: action.payload
+            };
+        case authConstants.CHECK_FAILURE:
+            return {
+                loading: false,
+                data: null,
+                error
             };
         default:
             return state

@@ -9,7 +9,6 @@ module.exports = {
     },
     mode: "development",
     devServer: {
-        hot: true,
         port: 9090,
         historyApiFallback: true
     },

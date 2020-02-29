@@ -1,21 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {bindActionCreators} from "redux";
-import {userActions} from "../../actions";
+import {authActions, userActions} from "../../actions";
 import {connect} from "react-redux";
 import HomePageComponent from "./HomePage.component";
+import {CircularProgress} from "@material-ui/core";
 
-function HomePageContainer({user, logout, getById}){
+function HomePageContainer({user, logout, checkToken, loading}) {
+    useEffect(() => checkToken(), []);
 
-        return <HomePageComponent {...arguments[0]} />;
+    return loading && !user ? <CircularProgress /> : <HomePageComponent user={user} logout={logout} />;
 }
 
-const mapStateToProps = ({users, user}) => ({
-    user: user,
-    users
+const mapStateToProps = ({ user }) => ({
+    user: user.data,
+    loading: user.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-    ...bindActionCreators(userActions, dispatch)
+    ...bindActionCreators(userActions, dispatch),
+    ...bindActionCreators(authActions, dispatch),
 });
 
 const connectedHomePage = connect(

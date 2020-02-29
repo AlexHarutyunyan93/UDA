@@ -12,6 +12,7 @@ export const userService = {
 function logout() {
     // remove user from local storage to log user out
     Cookies.remove('token');
+    Cookies.remove('userId');
 }
 
 function getAll() {

@@ -3,20 +3,20 @@ import PrivateRoute from "./PrivateRoute";
 import {bindActionCreators} from "redux";
 import {userActions} from "../../actions";
 import {connect} from "react-redux";
-import Cookies from "js-cookie";
 
-export function PrivateRouteWrapper({...props}){
+export function PrivateRouteWrapper({loggedIn, ...props}){
 
-    const isUser = Cookies.get('token') && Cookies.get('userId') && true;
-
-    return <PrivateRoute {...props} isUser={isUser} />
+    return <PrivateRoute {...props} loggedIn={loggedIn} />
 }
 
+const mapStateToProps = ({ authentication }) => ({
+    loggedIn: authentication.loggedIn
+});
 
 const mapDispatchToProps = dispatch => ({
     ...bindActionCreators(userActions, dispatch)
 });
 
-const connectedPrivateRoute = connect(null, mapDispatchToProps)(PrivateRouteWrapper);
+const connectedPrivateRoute = connect(mapStateToProps, mapDispatchToProps)(PrivateRouteWrapper);
 
 export { connectedPrivateRoute as PrivateRoute };
