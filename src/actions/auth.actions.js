@@ -34,7 +34,6 @@ function login(username, password) {
 
 
 function register(user) {
-    console.log(user)
     return dispatch => {
         dispatch(request());
 

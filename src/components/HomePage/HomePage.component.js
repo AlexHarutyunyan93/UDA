@@ -1,13 +1,11 @@
 import React from 'react';
-import Button from "@material-ui/core/Button";
+import {Header} from "../Header";
 
-const HomePageComponent = ({user, logout}) => {
+const HomePageComponent = ({user}) => {
     return (
         <div className="col-md-6 col-md-offset-3">
+            <Header />
             <h1>{`${user.firstName} ${user.lastName}`}</h1>
-            <p>
-                <Button color="primary" onClick={() => logout()}>Logout</Button>
-            </p>
         </div>
 )};
 export default HomePageComponent;

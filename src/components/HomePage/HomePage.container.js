@@ -8,7 +8,7 @@ import {CircularProgress} from "@material-ui/core";
 function HomePageContainer({user, logout, checkToken, loading}) {
     useEffect(() => checkToken(), []);
 
-    return loading && !user ? <CircularProgress /> : <HomePageComponent user={user} logout={logout} />;
+    return loading && !user ? <CircularProgress /> : <HomePageComponent user={user} />;
 }
 
 const mapStateToProps = ({ user }) => ({
