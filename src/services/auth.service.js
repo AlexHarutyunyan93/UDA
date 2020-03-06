@@ -15,12 +15,11 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`http://localhost:7070/users/authenticate`, requestOptions)
+    return fetch(`http://localhost:7070/auth/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             Cookies.set('token', user.token, { expires: 7 });
-            Cookies.set('userId', user._id, { expires: 7 });
             return user;
         });
 }
@@ -36,6 +35,7 @@ function checkToken() {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            Cookies.set('token', user.token, { expires: 7 });
             return user;
         });
 }
@@ -43,7 +43,6 @@ function checkToken() {
 function logout() {
     // remove user from local storage to log user out
     Cookies.remove('token');
-    Cookies.remove('userId');
 }
 
 function register(user) {
@@ -52,12 +51,11 @@ function register(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    return fetch(`http://localhost:7070/users/register`, requestOptions)
+    return fetch(`http://localhost:7070/auth/register`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             Cookies.set('token', user.token, { expires: 7 });
-            Cookies.set('userId', user._id, { expires: 7 });
             return user;
         });
 
