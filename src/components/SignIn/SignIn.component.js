@@ -76,8 +76,8 @@ function SignInComponent({ submit }) {
                         required
                         fullWidth
                         id="email"
-                        label="User Name"
-                        name="username"
+                        label="Email or User name"
+                        name="email"
                         autoComplete="email"
                         autoFocus
                         onChange={(e) => setUserName(e.target.value)}

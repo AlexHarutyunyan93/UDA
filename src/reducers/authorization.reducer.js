@@ -1,5 +1,6 @@
 import { userConstants } from '../constants';
 
+
 export function authorization(state = {}, action) {
     switch (action.type) {
         case userConstants.REGISTER_REQUEST:
@@ -12,7 +13,9 @@ export function authorization(state = {}, action) {
                 registering: true,
             };
         case userConstants.REGISTER_FAILURE:
-            return {};
+            return {
+
+            };
         default:
             return state
     }
