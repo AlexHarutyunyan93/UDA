@@ -14,6 +14,7 @@ export function authentication(state = initialState, action) {
             };
         case userConstants.LOGIN_SUCCESS:
             return {
+                ...state,
                 loggedIn: true,
             };
         case userConstants.LOGIN_FAILURE:
@@ -28,6 +29,7 @@ export function authentication(state = initialState, action) {
             };
         case userConstants.REGISTER_SUCCESS:
             return {
+                ...state,
                 loggedIn: true,
             };
         default:

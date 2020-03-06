@@ -30,8 +30,9 @@ function checkToken() {
         method: 'GET',
         headers: authHeader(),
     };
+    const id = Cookies.get('userId');
 
-    return fetch(`http://localhost:7070/users/current/${Cookies.get('userId')}`, requestOptions)
+    return fetch(`http://localhost:7070/users/current/${id}`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
