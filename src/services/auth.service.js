@@ -19,6 +19,7 @@ function login(username, password) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            Cookies.set('userId', user._id, { expires: 7 });
             Cookies.set('token', user.token, { expires: 7 });
             return user;
         });
@@ -35,7 +36,9 @@ function checkToken() {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            Cookies.set('userId', user._id, { expires: 7 });
             Cookies.set('token', user.token, { expires: 7 });
+            console.log(user);
             return user;
         });
 }
@@ -55,6 +58,7 @@ function register(user) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
+            Cookies.set('userId', user._id, { expires: 7 });
             Cookies.set('token', user.token, { expires: 7 });
             return user;
         });
