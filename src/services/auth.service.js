@@ -8,7 +8,7 @@ export const authService = {
     checkToken
 };
 
-function login(username, password) {
+function login({username, password, rememberUser}) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -19,8 +19,15 @@ function login(username, password) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            Cookies.set('userId', user._id, { expires: 7 });
-            Cookies.set('token', user.token, { expires: 7 });
+            if(rememberUser){
+                Cookies.set('userId', user._id, { expires: 7 });
+                Cookies.set('token', user.token, { expires: 7 });
+            } else {
+                Cookies.set('userId', user._id);
+                Cookies.set('token', user.token);
+            }
+
+
             return user;
         });
 }
@@ -36,9 +43,8 @@ function checkToken() {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            Cookies.set('userId', user._id, { expires: 7 });
-            Cookies.set('token', user.token, { expires: 7 });
-            console.log(user);
+            Cookies.set('userId', user._id, { expires: 30 });
+            Cookies.set('token', user.token, { expires: 30 });
             return user;
         });
 }
@@ -58,8 +64,8 @@ function register(user) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            Cookies.set('userId', user._id, { expires: 7 });
-            Cookies.set('token', user.token, { expires: 7 });
+            Cookies.set('userId', user._id, { expires: 30 });
+            Cookies.set('token', user.token, { expires: 30 });
             return user;
         });
 

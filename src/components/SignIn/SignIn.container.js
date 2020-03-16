@@ -6,10 +6,10 @@ import SignInComponent from "./SignIn.component";
 import {Redirect} from "react-router-dom";
 
 function SignInContainer({login, logout, loggedIn}){
-    function submit(e, username, password){
+    function submit(e, {username, password, rememberUser}){
         e.preventDefault();
         if (username && password) {
-            login(username, password);
+            login({username, password, rememberUser});
         }
     }
     return loggedIn ?

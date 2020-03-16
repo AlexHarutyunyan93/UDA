@@ -51,6 +51,13 @@ function SignInComponent({ submit }) {
     const classes = useStyles();
     let [ username, setUserName ] = useState(null);
     let [ password, setPassword ] = useState(null);
+    let [ rememberUser, setRememberUser ] = useState(false);
+
+    let reqParams = {
+        username,
+        password,
+        rememberUser
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -62,7 +69,7 @@ function SignInComponent({ submit }) {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={e => submit(e, username, password)}>
+                <form className={classes.form} noValidate onSubmit={e => submit(e, reqParams)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -88,7 +95,11 @@ function SignInComponent({ submit }) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={<Checkbox
+                            value="remember"
+                            color="primary"
+                            checked={rememberUser}
+                            onChange={() => setRememberUser(!rememberUser)} />}
                         label="Remember me"
                     />
                     <Button

@@ -10,11 +10,11 @@ export const authActions = {
     checkToken
 };
 
-function login(username, password) {
+function login(reqParams) {
     return dispatch => {
         dispatch(request());
 
-        authService.login(username, password)
+        authService.login(reqParams)
             .then(
                 user => {
                     dispatch(success(user));
